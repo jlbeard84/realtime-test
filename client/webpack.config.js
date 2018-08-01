@@ -9,6 +9,7 @@ const config = {
     context: path.resolve(__dirname, appPath),
     entry: "./index.ts",
     devtool: "inline-source-map",
+    mode: "production",
     devServer: {
         contentBase: path.resolve(__dirname, distPath)
     },

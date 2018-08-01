@@ -1,6 +1,7 @@
 import * as io from "socket.io-client";
 
 import { Environment } from "./environment";
+import { CONNECTION_TYPE } from "../../common";
 
 const environment = new Environment();
 const socket = io(environment.getServerUrl());
@@ -22,13 +23,13 @@ if (buttonElement) {
             }
 
             console.log(input.value);
-            socket.emit("chat", value);
+            socket.emit(CONNECTION_TYPE.CHAT_MESSAGE, value);
             input.value = "";
         }
     });
 }
 
-socket.on("chat", (message: string) => {
+socket.on(CONNECTION_TYPE.CHAT_MESSAGE, (message: string) => {
     if (!message) {
         console.log("invalid chat message received");
         return;

@@ -1,5 +1,6 @@
 {
   "name": "realtime-client",
+  "sideEffects": false,
   "version": "1.0.0",
   "description": "Websocket client for real-time test",
   "scripts": {

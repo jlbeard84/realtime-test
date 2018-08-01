@@ -3,29 +3,27 @@ import * as http from "http";
 import * as io from "socket.io";
 import { AddressInfo } from "net";
 
+import { CONNECTION_TYPE } from "../../common";
+
 const app = express();
 const server = http.createServer(app);
 const ioServer = io(server);
 
-app.get("/", (req, res) => {
-    res.send("<h1>Hello world</h1>");
-});
-
-ioServer.on("connection", (socket: io.Socket) => {
+ioServer.on(CONNECTION_TYPE.CONNECTION, (socket: io.Socket) => {
     console.log("A user connected");
 
-    socket.on("disconnect", () => {
+    socket.on(CONNECTION_TYPE.DISCONNECT, () => {
         console.log("User disconnected");
     });
 
-    socket.on("chat", (message: string) => {
+    socket.on(CONNECTION_TYPE.CHAT_MESSAGE, (message: string) => {
         if (!message) {
             console.log("invalid chat command received");
             return;
         }
 
         //socket.broadcast.emit("chat", message);
-        ioServer.emit("chat", message);
+        ioServer.emit(CONNECTION_TYPE.CHAT_MESSAGE, message);
     });
 });
 
