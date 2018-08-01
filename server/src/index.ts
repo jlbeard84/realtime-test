@@ -13,6 +13,20 @@ app.get("/", (req, res) => {
 
 ioServer.on("connection", (socket: io.Socket) => {
     console.log("A user connected");
+
+    socket.on("disconnect", () => {
+        console.log("User disconnected");
+    });
+
+    socket.on("chat", (message: string) => {
+        if (!message) {
+            console.log("invalid chat command received");
+            return;
+        }
+
+        //socket.broadcast.emit("chat", message);
+        ioServer.emit("chat", message);
+    });
 });
 
 server.listen(process.env.PORT || 8999, () => {
